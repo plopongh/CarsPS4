@@ -9,15 +9,10 @@ import {
   Platform,
   StyleSheet,
   Text,
-  View
+  View,
+  ListView
 } from 'react-native';
 
-const instructions = Platform.select({
-  ios: 'Press Cmd+R to reload,\n' +
-    'Cmd+D or shake for dev menu',
-  android: 'Double tap R on your keyboard to reload,\n' +
-    'Shake or press menu button for dev menu',
-});
 const database_name = "test.db"
 
 var SQLite = require('react-native-sqlite-storage')
@@ -27,14 +22,35 @@ class App extends Component {
 
   constructor(props) {
     super(props)
-    console.log("==========  Konstruktor  ======= ");
 
     this.state = {
-      make: "",
+      progress: [],
+      dataSource: new ListView.DataSource({
+        rowHasChanged: (row1, row2) => { row1 !== row2; },
+      })
     };
 
     db.transaction((tx) => {
-      tx.executeSql('SELECT make FROM cars2', [], (tx, results) => {
+      tx.executeSql('SELECT * FROM cars2', [], (tx, results) => {
+        var len = results.rows.length
+        var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
+        for (let i = 0; i < len; i++) {
+          let row = results.rows.item(i);
+          this.addCarToList(row)
+        }
+      });
+    });
+  }
+
+  addCarToList = (car) => {
+    let progress = [...this.state.progress]
+    progress.push(car);
+    this.setState({ progress })
+  }
+
+  populateDb(make, model, year, power) {
+    db.transaction((tx) => {
+      tx.executeSql('SELECT * FROM cars2 WHERE model=?', [make], (tx, results) => {
         var len = results.rows.length
 
         if (len > 0) {
@@ -43,6 +59,18 @@ class App extends Component {
         }
       });
     });
+  }
+
+  ListViewItemSeparator = () => {
+    return (
+      <View
+        style={{
+          height: .5,
+          width: "100%",
+          backgroundColor: "#03204c",
+        }}
+      />
+    );
   }
 
   errorCB(err) {
@@ -58,17 +86,21 @@ class App extends Component {
   }
 
   render() {
+    var ds = new ListView.DataSource({ rowHasChanged: (row1, row2) => { row1 !== row2; } });
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          HEEKI: {this.state.make}
+          WYNIKI WYSZUKIWANIA
         </Text>
         <Text style={styles.instructions}>
-          To get started, edit App.js
+          Ponizej znajduje się lista dostępnych modeli. Aby zobaczyć szczegóły, kliknij w wybraną pozycję
         </Text>
-        <Text style={styles.instructions}>
-          {instructions}
-        </Text>
+        <ListView
+          style={styles.listView}
+          dataSource={ds.cloneWithRows(this.state.progress)}
+          renderSeparator={this.ListViewItemSeparator}
+          renderRow={(rowData) => <Text style={styles.rowViewContainer}>{rowData.make} {rowData.model}</Text>}
+        />
       </View>
     );
   }
@@ -91,8 +123,20 @@ const styles = StyleSheet.create({
     color: '#333333',
     marginBottom: 5,
   },
+  rowViewContainer: {
+    flex: 1,
+    fontSize: 20,
+    paddingRight: 10,
+    paddingTop: 10,
+    paddingBottom: 10,
+    color: '#2172ed',
+    margin: 10
+  },
+  listView: {
+    marginTop: 10,
+    width: 350
+  },
 });
 
 export default App;
-
 // https://pastebin.com/24qxfzhP
