@@ -18,14 +18,65 @@ const instructions = Platform.select({
   android: 'Double tap R on your keyboard to reload,\n' +
     'Shake or press menu button for dev menu',
 });
+const database_name = "test.db"
 
-type Props = {};
-export default class App extends Component<Props> {
+var SQLite = require('react-native-sqlite-storage')
+// var db = SQLite.openDatabase({ name: database_name, createFromLocation: '~cars.db' }, this.openCB, this.errorCB)
+var db = SQLite.openDatabase({ name: database_name, createFromLocation: '~cars.db' })
+
+// type Props = {};
+export default class App extends Component<> {
+
+  constructor(props) {
+    super(props)
+    console.log("==========  Konstruktor  ======= ");
+
+    this.state = {
+      make: "",
+    };
+
+    db.transaction((tx) => {
+      console.log("==========  TRANSAKCJA  ======= ");
+
+      tx.executeSql('SELECT make FROM cars2', [], (tx, results) => {
+        var len = results.rows.length
+        console.log("==========  SQL:   =======" + len);
+
+        if (len > 0) {
+          console.log("==========  IF   =======");
+
+          var row = results.rows.item(0);
+          console.log("==========  ROW:   =======" + row);
+          console.log("==========  ROW make:   =======" + row.make);
+
+
+          this.state({ make: row.make });
+          console.log("==========  ROW make form state1:   =======" + row.make);
+          console.log("==========  ROW make form state2:   =======" + this.state.make);
+
+          console.log("SQL query executed " + this.state.make);
+        }
+      });
+    });
+  }
+
+  errorCB(err) {
+    console.log("SQL Error: " + err);
+  }
+
+  successCB() {
+    console.log("SQL executed fine");
+  }
+
+  openCB() {
+    console.log("Database OPENED");
+  }
+
   render() {
     return (
       <View style={styles.container}>
         <Text style={styles.welcome}>
-          Welcome to React Native!
+          HEEKI: {this.state.make}
         </Text>
         <Text style={styles.instructions}>
           To get started, edit App.js
@@ -56,3 +107,5 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
+
+// https://pastebin.com/24qxfzhP
