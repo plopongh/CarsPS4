@@ -21,11 +21,9 @@ const instructions = Platform.select({
 const database_name = "test.db"
 
 var SQLite = require('react-native-sqlite-storage')
-// var db = SQLite.openDatabase({ name: database_name, createFromLocation: '~cars.db' }, this.openCB, this.errorCB)
-var db = SQLite.openDatabase({ name: database_name, createFromLocation: '~cars.db' })
+var db = SQLite.openDatabase({ name: database_name, createFromLocation: '~cars.db' }, this.openCB, this.errorCB)
 
-// type Props = {};
-export default class App extends Component<> {
+class App extends Component {
 
   constructor(props) {
     super(props)
@@ -36,25 +34,12 @@ export default class App extends Component<> {
     };
 
     db.transaction((tx) => {
-      console.log("==========  TRANSAKCJA  ======= ");
-
       tx.executeSql('SELECT make FROM cars2', [], (tx, results) => {
         var len = results.rows.length
-        console.log("==========  SQL:   =======" + len);
 
         if (len > 0) {
-          console.log("==========  IF   =======");
-
           var row = results.rows.item(0);
-          console.log("==========  ROW:   =======" + row);
-          console.log("==========  ROW make:   =======" + row.make);
-
-
-          this.state({ make: row.make });
-          console.log("==========  ROW make form state1:   =======" + row.make);
-          console.log("==========  ROW make form state2:   =======" + this.state.make);
-
-          console.log("SQL query executed " + this.state.make);
+          this.setState({ make: row.make });
         }
       });
     });
@@ -107,5 +92,7 @@ const styles = StyleSheet.create({
     marginBottom: 5,
   },
 });
+
+export default App;
 
 // https://pastebin.com/24qxfzhP
