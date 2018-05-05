@@ -102,7 +102,9 @@ export default class CarsTable extends Component {
               style={styles.listView}
               dataSource={ds.cloneWithRows(this.state.progress)}
               renderSeparator={this.ListViewItemSeparator}
-              renderRow={(rowData) => <Text style={styles.rowViewContainer}>{rowData.make} {rowData.model}</Text>}
+              renderRow={(rowData) => <Text style={styles.rowViewContainer}
+              onPress={() => navigate('CarDetails', { make: rowData.make, model:rowData.model, year: rowData.year, power: rowData.power })}>
+              {rowData.make} {rowData.model}</Text>}
             />
           </View>
         );
