@@ -12,100 +12,30 @@ import {
   View,
   ListView
 } from 'react-native';
+import { StackNavigator } from 'react-navigation';
+
+import SearchCar from './src/SearchScreen';
+import CarsTable from './src/CarsTableScreen';
+import CarDetails from './src/CarDetailsScreen';
 
 const database_name = "test.db"
 
 var SQLite = require('react-native-sqlite-storage')
 var db = SQLite.openDatabase({ name: database_name, createFromLocation: '~cars.db' }, this.openCB, this.errorCB)
 
-class App extends Component {
-
-  constructor(props) {
-    super(props)
-
-    this.state = {
-      progress: [],
-      dataSource: new ListView.DataSource({
-        rowHasChanged: (row1, row2) => { row1 !== row2; },
-      })
-    };
-
-    db.transaction((tx) => {
-      tx.executeSql('SELECT * FROM cars2', [], (tx, results) => {
-        var len = results.rows.length
-        var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
-        for (let i = 0; i < len; i++) {
-          let row = results.rows.item(i);
-          this.addCarToList(row)
-        }
-      });
-    });
-  }
-
-  addCarToList = (car) => {
-    let progress = [...this.state.progress]
-    progress.push(car);
-    this.setState({ progress })
-  }
-
-  populateDb(make, model, year, power) {
-    db.transaction((tx) => {
-      tx.executeSql('SELECT * FROM cars2 WHERE model=?', [make], (tx, results) => {
-        var len = results.rows.length
-
-        if (len > 0) {
-          var row = results.rows.item(0);
-          this.setState({ make: row.make });
-        }
-      });
-    });
-  }
-
-  ListViewItemSeparator = () => {
-    return (
-      <View
-        style={{
-          height: .5,
-          width: "100%",
-          backgroundColor: "#03204c",
-        }}
-      />
-    );
-  }
-
-  errorCB(err) {
-    console.log("SQL Error: " + err);
-  }
-
-  successCB() {
-    console.log("SQL executed fine");
-  }
-
-  openCB() {
-    console.log("Database OPENED");
-  }
-
+export default class App extends Component {
   render() {
-    var ds = new ListView.DataSource({ rowHasChanged: (row1, row2) => { row1 !== row2; } });
     return (
-      <View style={styles.container}>
-        <Text style={styles.welcome}>
-          WYNIKI WYSZUKIWANIA
-        </Text>
-        <Text style={styles.instructions}>
-          Ponizej znajduje się lista dostępnych modeli. Aby zobaczyć szczegóły, kliknij w wybraną pozycję
-        </Text>
-        <ListView
-          style={styles.listView}
-          dataSource={ds.cloneWithRows(this.state.progress)}
-          renderSeparator={this.ListViewItemSeparator}
-          renderRow={(rowData) => <Text style={styles.rowViewContainer}>{rowData.make} {rowData.model}</Text>}
-        />
-      </View>
+      <AppNavigator/>
     );
   }
 }
 
+const AppNavigator = StackNavigator ( {
+    SearchCar : { screen: SearchCar},
+    CarsTable : { screen: CarsTable},
+    CarDetails : { screen: CarDetails},
+})
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -138,5 +68,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default App;
-// https://pastebin.com/24qxfzhP
+
