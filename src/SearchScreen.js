@@ -16,16 +16,21 @@ export default class SearchCar extends Component {
     };
     constructor(props) {
         super(props)
-        this.state = { search:''};
+        this.state = { search: '' };
     }
     render() {
-        const { navigate} = this.props.navigation;
-       
+        const { navigate } = this.props.navigation;
+
         return (
             <View behavior="padding" style={styles.container}>
 
+                <View style={styles.headerContainer}>
+                    <Button style={styles.consultantButton} title="Konsultanci" onPress={() => navigate('ConsultansTable')} >
+                    <Image source={require('../../image/info.png')} />
+                    </Button>
+                </View>
                 <View style={styles.formContainer}>
-                <TextInput
+                    <TextInput
                         onChangeText={(text) => this.search = text}
                         placeholder="szukaj..."
                         placeholderTextColor='black'
@@ -93,5 +98,16 @@ const styles = StyleSheet.create({
         color: 'black',
         paddingHorizontal: 10,
         fontWeight: 'bold',
+    },
+    headerContainer: {
+        width: 350,
+        height: 200,
+        marginTop: 0,
+        flex: 1
+    },
+    consultantButton: {
+        width: 35,
+        height: 20,
+        marginTop: 0,
     },
 });

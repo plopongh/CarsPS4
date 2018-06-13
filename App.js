@@ -17,6 +17,7 @@ import { StackNavigator } from 'react-navigation';
 import SearchCar from './src/SearchScreen';
 import CarsTable from './src/CarsTableScreen';
 import CarDetails from './src/CarDetailsScreen';
+import ConsultansTable from './src/ConsultansTableScreen'; 
 
 const database_name = "test.db"
 
@@ -35,6 +36,7 @@ const AppNavigator = StackNavigator ( {
     SearchCar : { screen: SearchCar},
     CarsTable : { screen: CarsTable},
     CarDetails : { screen: CarDetails},
+    ConsultansTable : { screen: ConsultansTable},
 })
 const styles = StyleSheet.create({
   container: {
