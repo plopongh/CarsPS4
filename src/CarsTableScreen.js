@@ -88,7 +88,7 @@ export default class CarsTable extends Component {
       render() {
         var ds = new ListView.DataSource({ rowHasChanged: (row1, row2) => { row1 !== row2; } });
         const { navigate, state } = this.props.navigation;
-        const { search } = state.params;  
+        const { search, startDate, endDate } = state.params;  
         searchCar = search;
         return (
           <View style={styles.container}>
@@ -97,6 +97,12 @@ export default class CarsTable extends Component {
             </Text>
             <Text style={styles.instructions}>
               Ponizej znajduje się lista dostępnych modeli. Aby zobaczyć szczegóły, kliknij w wybraną pozycję
+            </Text>
+            <Text style={styles.instructions}>
+              Data najmu: {startDate}
+            </Text>
+            <Text style={styles.instructions}>
+              Data zwrotu: {endDate}
             </Text>
             <ListView
               style={styles.listView}
