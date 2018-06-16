@@ -18,15 +18,15 @@ export default class SearchCar extends Component {
     static navigationOptions = {
         title: 'Wyszukiwanie',
         headerRight: (
-            <TouchableOpacity onPress={() => navigate('ConsultansTable')}>
+            <TouchableOpacity onPress={() => {navigate('ConsultansTable')} }>
                 <Image source={require('./image/info.png')} style={{ width: 35, height: 35, marginRight: 10 }} />
             </TouchableOpacity>
         ),
     };
-    
+
     constructor(props) {
         super(props)
-        this.state = { search: '', todayDate: new Date(), startDate: new Date(), endDate: new Date(), pickerMarkValue:'', pickerYearValue:''}
+        this.state = { search: '', todayDate: new Date(), startDate: new Date(), endDate: new Date(), pickerMarkValue: '', pickerYearValue: '' }
         this.state = {
             types1: [{ label: 'Osobowy ', value: 0, color: '#d9d9d9' }, { label: 'Dostawczy ', value: 1, color: '#d9d9d9' }],
             value1: 0,
@@ -35,19 +35,19 @@ export default class SearchCar extends Component {
     }
 
     render() {
-        const { navigate, state} = this.props.navigation;
+        const { navigate, state } = this.props.navigation;
 
         return (
             <View behavior="padding" style={styles.container}>
                 <View style={styles.formContainer}>
-                <Text style={styles.subtitleText}>Data najmu *:</Text>
+                    <Text style={styles.subtitleText}>Data najmu *:</Text>
                     <DatePicker
                         style={styles.datePicker}
                         date={this.state.startDate}
                         mode="date"
                         placeholder="wybierz datę"
                         format="YYYY-MM-DD"
-                        minDate= {this.todayDate}
+                        minDate={this.todayDate}
                         maxDate="2018-12-31"
                         confirmBtnText="Gotowe"
                         cancelBtnText="Zakończ"
@@ -72,7 +72,7 @@ export default class SearchCar extends Component {
                         mode="date"
                         placeholder="wybierz datę"
                         format="YYYY-MM-DD"
-                        minDate= {this.todayDate}
+                        minDate={this.todayDate}
                         maxDate="2018-12-31"
                         confirmBtnText="Gotowe"
                         cancelBtnText="Zakończ"
@@ -111,7 +111,7 @@ export default class SearchCar extends Component {
                     <Picker
                         selectedValue={this.state.pickerMarkValue}
                         onValueChange={(itemValue, itemIndex) => this.setState({ pickerMarkValue: itemValue })} >
-                        <Picker.Item label="" value=""/>
+                        <Picker.Item label="" value="" />
                         <Picker.Item label="Alfa Romeo" value="Alfa Romeo" />
                         <Picker.Item label="Audi" value="Audi" />
                         <Picker.Item label="BMW" value="BMW" />
@@ -124,7 +124,7 @@ export default class SearchCar extends Component {
                     <Picker
                         selectedValue={this.state.pickerYearValue}
                         onValueChange={(itemValue, itemIndex) => this.setState({ pickerYearValue: itemValue })} >
-                        <Picker.Item label="" value=""/>
+                        <Picker.Item label="" value="" />
                         <Picker.Item label="2005" value="2005" />
                         <Picker.Item label="2006" value="2006" />
                         <Picker.Item label="2007" value="2007" />
@@ -144,11 +144,11 @@ export default class SearchCar extends Component {
                         returnKeyType="next"
                         onSubmitEditing={() => this.passwordInput.focus()}
                         style={styles.input} /> */}
-                           <View style={styles.formContainer}>
-                    <Button style={styles.buttonText} title="DALEJ" onPress={() => navigate('CarsTable', { search: this.search, startDate:this.state.startDate, endDate: this.state.endDate, markValue: this.state.pickerMarkValue, yearValue: this.state.pickerYearValue, carType: this.state.types1[this.state.value1Index].label})} />
+                    <View style={styles.formContainer}>
+                        <Button style={styles.buttonText} title="DALEJ" onPress={() => navigate('CarsTable', { search: this.search, startDate: this.state.startDate, endDate: this.state.endDate, markValue: this.state.pickerMarkValue, yearValue: this.state.pickerYearValue, carType: this.state.types1[this.state.value1Index].label })} />
+                    </View>
                 </View>
-                </View>
-             
+
 
             </View>
         );
@@ -226,7 +226,7 @@ const styles = StyleSheet.create({
         color: 'black',
         fontSize: 15,
         fontWeight: 'bold',
-        marginTop:10,
-        marginBottom:5
+        marginTop: 10,
+        marginBottom: 5
     },
 });

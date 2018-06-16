@@ -7,6 +7,7 @@ import {
     View,
     KeyboardAvoidingView,
 } from 'react-native';
+// import MapView from 'react-native-maps';
 
 export default class MapView extends Component {
     static navigationOptions = {
@@ -19,8 +20,9 @@ export default class MapView extends Component {
         return (
             <View behavior="padding" style={styles.container}>
                 <View style={styles.formContainer}>
-                <Text style={styles.title}>Data najmu:</Text>
-
+                <Text style={styles.title}>Zapraszamy po odbiór samochodu w naszym punkcie przy ulicy....</Text>
+                <Text>W razie problemów prosimy skontaktować się z naszymi </Text>
+                <Text color="red" fontWeight="bold" onPress={() => {navigate('ConsultansTable')} } >KONSULTANTAMI! </Text>
                 </View>
             </View>
         );

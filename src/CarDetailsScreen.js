@@ -27,11 +27,13 @@ export default class CarDetails extends Component {
                     <Text style={styles.title}>Rok produkcji: {year}</Text>
                     <Text style={styles.title}>Moc samochodu: {power}</Text>
                     <Text style={styles.title}>Cena: 120zł</Text>
-                </View>
-                <View style={styles.formContainer}>
+                    <View style={styles.formContainer}>
                         <Button style={styles.buttonText} title="Wypożycz" onPress={() => navigate('MapView')} />
                     </View>
+                </View>
+                
             </View>
+
         );
     };
 }
