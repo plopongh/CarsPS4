@@ -17,6 +17,8 @@ const database_name = "test.db"
 var SQLite = require('react-native-sqlite-storage')
 var db = SQLite.openDatabase({ name: database_name, createFromLocation: '~cars.db' }, this.openCB, this.errorCB)
 const searchCar = ""
+const pickerMarkValue = ""
+const pickerYearValue = ""
 export default class CarsTable extends Component {
     static navigationOptions = {
         title: 'Samochody',
@@ -31,7 +33,7 @@ export default class CarsTable extends Component {
         };
         
         db.transaction((tx) => {
-          tx.executeSql('SELECT * FROM cars2 WHERE make LIKE ? OR model LIKE ? OR year LIKE ? OR power LIKE ?', [searchCar,searchCar,searchCar,searchCar], (tx, results) => {
+          tx.executeSql('SELECT * FROM cars2 WHERE make LIKE ? And year LIKE ?', [pickerMarkValue,pickerYearValue], (tx, results) => {
             var len = results.rows.length
             var ds = new ListView.DataSource({ rowHasChanged: (r1, r2) => r1 !== r2 });
             for (let i = 0; i < len; i++) {
@@ -88,8 +90,10 @@ export default class CarsTable extends Component {
       render() {
         var ds = new ListView.DataSource({ rowHasChanged: (row1, row2) => { row1 !== row2; } });
         const { navigate, state } = this.props.navigation;
-        const { search, startDate, endDate } = state.params;  
+        const { search, startDate, endDate, markValue, yearValue, carType} = state.params;  
         searchCar = search;
+        pickerMarkValue = markValue;
+        pickerYearValue = yearValue;
         return (
           <View style={styles.container}>
             <Text style={styles.welcome}>
@@ -99,17 +103,15 @@ export default class CarsTable extends Component {
               Ponizej znajduje się lista dostępnych modeli. Aby zobaczyć szczegóły, kliknij w wybraną pozycję
             </Text>
             <Text style={styles.instructions}>
-              Data najmu: {startDate}
+              Data najmu: {markValue} {carType}
             </Text>
-            <Text style={styles.instructions}>
-              Data zwrotu: {endDate}
-            </Text>
+
             <ListView
               style={styles.listView}
               dataSource={ds.cloneWithRows(this.state.progress)}
               renderSeparator={this.ListViewItemSeparator}
               renderRow={(rowData) => <Text style={styles.rowViewContainer}
-              onPress={() => navigate('CarDetails', { make: rowData.make, model:rowData.model, year: rowData.year, power: rowData.power })}>
+              onPress={() => navigate('CarDetails', { make: rowData.make, model:rowData.model, year: rowData.year, power: rowData.power, startDate: startDate, endDate: endDate, carType: carType})}>
               {rowData.make} {rowData.model}</Text>}
             />
           </View>

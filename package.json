@@ -12,6 +12,7 @@
     "react-moment": "^0.7.6",
     "react-native": "0.55.3",
     "react-native-datepicker": "^1.7.2",
+    "react-native-simple-radio-button": "^2.7.2",
     "react-native-sqlite-storage": "^3.3.4",
     "react-navigation": "^1.5.12"
   },

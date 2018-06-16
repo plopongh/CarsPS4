@@ -5,27 +5,32 @@ import {
     StyleSheet,
     Text,
     View,
-    KeyboardAvoidingView,
+    KeyboardAvoidingView, Button
 } from 'react-native';
 
 export default class CarDetails extends Component {
     static navigationOptions = {
-        title: 'Szczegóły samochodu',
+        title: 'Podsumowanie',
     };
 
     render() {
         const { navigate, state } = this.props.navigation;
-        const { make, model, year, power } = state.params;  
+        const { make, model, year, power, startDate, endDate, carType } = state.params;  
         return (
             <View behavior="padding" style={styles.container}>
-
                 <View style={styles.formContainer}>
+                <Text style={styles.title}>Data najmu: {startDate}</Text>
+                <Text style={styles.title}>Data zwrotu: {endDate}</Text>
+                <Text style={styles.title}>Rodzaj samochodu: {carType}</Text>
                     <Text style={styles.title}>Marka: {make}</Text>
                     <Text style={styles.title}>Model: {model}</Text>
                     <Text style={styles.title}>Rok produkcji: {year}</Text>
                     <Text style={styles.title}>Moc samochodu: {power}</Text>
+                    <Text style={styles.title}>Cena: 120zł</Text>
                 </View>
-
+                <View style={styles.formContainer}>
+                        <Button style={styles.buttonText} title="Wypożycz" onPress={() => navigate('MapView')} />
+                    </View>
             </View>
         );
     };

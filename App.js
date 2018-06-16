@@ -18,6 +18,7 @@ import SearchCar from './src/SearchScreen';
 import CarsTable from './src/CarsTableScreen';
 import CarDetails from './src/CarDetailsScreen';
 import ConsultansTable from './src/ConsultansTableScreen'; 
+import MapView from './src/MapScreen'; 
 
 const database_name = "test.db"
 
@@ -37,6 +38,7 @@ const AppNavigator = StackNavigator ( {
     CarsTable : { screen: CarsTable},
     CarDetails : { screen: CarDetails},
     ConsultansTable : { screen: ConsultansTable},
+    MapView : { screen: MapView},
 })
 const styles = StyleSheet.create({
   container: {
